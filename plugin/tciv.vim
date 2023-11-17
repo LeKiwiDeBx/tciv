@@ -57,9 +57,10 @@ function! AddSign(sign)
     try
         let l:signs = sign_getplaced(bufnr('%'), {'lnum': line('.'), 'group': 'signs'})[0].signs
         if len(l:signs) == 0
-            return v:false 
-        else
             let g:sign_id = sign_place(0, 'signs', a:sign, bufnr('%'), {'lnum': line('.')})
+        else
+            echo "Ooops! already a sign on this line: " .. line('.')
+            return v:false 
         endif
     catch
         echo "Ooops! error with add a sign: "..v:exception
@@ -120,7 +121,7 @@ endfunction
 " create command for AddSign with customlist
 command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
 function! SignList(A, L, P)
-    return  g:bmf_signs->keys->sort()
+    return  g:bmf_signs->keys()->sort()
 endfunction
 
 " on vim start with vim enter load initialization function
