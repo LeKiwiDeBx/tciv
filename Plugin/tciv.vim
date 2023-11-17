@@ -5,6 +5,7 @@ endif
 let g:loaded_tciv = 0
 "functionCodeiumInVimInit to call when vim start up
 function! CodeiumInVimInit()
+    echo "tciv.vim plugin loaded"
     let g:loaded_tciv = 1
     "do a list g:bmf_list A O W E I
     let g:bmf_symb= ['A', 'O', 'W', 'E', 'I']
