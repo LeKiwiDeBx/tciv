@@ -120,11 +120,11 @@ endfunction
 " create command for AddSign with customlist
 command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
 function! SignList(A, L, P)
-    return  bmf_signs->keys->sort()
+    return  g:bmf_signs->keys->sort()
 endfunction
 
 " on vim start with vim enter load initialization function
-if has(v:'vim_starting') 
+if has('vim_starting') 
     autocmd VimEnter * call CodeiumInVimInit()
 else
     call CodeiumInVimInit()
