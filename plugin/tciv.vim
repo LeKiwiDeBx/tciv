@@ -137,26 +137,26 @@ command! -nargs=0 ListSignsAtBuffer :call ListSignsAtBuffer()
 command! -nargs=0 RemoveAllSigns :call RemoveAllSigns()
 
 nnoremap <silent> <Plug>AddSign :AddSign<space><tab>
-if !hasmapped('<Plug>AddSign')
+if !hasmapto('<Plug>AddSign')
     nmap <leader>as <Plug>AddSign
 endif
 
 nnoremap <silent> <Plug>RemoveSign :RemoveSign<CR>
-if !hasmapped('<Plug>RemoveSign')
+if !hasmapto('<Plug>RemoveSign')
     nmap <leader>rs <Plug>RemoveSign
 endif
 
 nnoremap <silent> <Plug>RemoveAllSigns :RemoveAllSigns<CR>
-if !hasmapped('<Plug>RemoveAllSigns')
+if !hasmapto('<Plug>RemoveAllSigns')
     nmap <leader>ras <Plug>RemoveAllSigns
 endif
 
 nnoremap <silent> <Plug>ListSigns :ListSigns<CR>
-if !hasmapped('<Plug>ListSigns')
+if !hasmapto('<Plug>ListSigns')
     nmap <leader>ls <Plug>ListSigns
 endif
 
 nnoremap <silent> <Plug>ListSignsAtBuffer :ListSignsAtBuffer<CR>
-if !hasmapped('<Plug>ListSignsAtBuffer')
+if !hasmapto('<Plug>ListSignsAtBuffer')
     nmap <leader>lsb <Plug>ListSignsAtBuffer
 endif
