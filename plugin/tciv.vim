@@ -143,7 +143,7 @@ command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
 "command to remove a sign
 command! -nargs=* -complete=customlist,GetSigns RemoveSign :call RemoveSign(<f-args>)
 "command to jump to a sign
-command! -nargs=1 -complete=customlist,GetSigns JumpToSign :call JumpToSign(<f-args>)
+command! -nargs=* -complete=customlist,GetSigns JumpToSign :call JumpToSign(<f-args>)
 
 nnoremap <silent> <Plug>AddSign :AddSign<space><tab>
 if !hasmapto('<Plug>AddSign')
