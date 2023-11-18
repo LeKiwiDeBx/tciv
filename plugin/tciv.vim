@@ -70,7 +70,7 @@ function! AddSign(sign)
     return g:sign_id
 endfunction
 
-function! RemoveSign(lnum, ,name ,arg3 , sign_id)
+function! RemoveSign(lnum, name, arg3, sign_id)
     if a:sign_id <= 0
         echo "Ooops! id is not  a valid sign_id "
         return v:false
