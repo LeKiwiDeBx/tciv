@@ -77,11 +77,14 @@ function! RemoveSign(lnum, name, arg3, sign_id)
     else
         try
             let g:sign_id = sign_unplace('signs', {'id': a:sign_id})
-            echo "Remove a sign at line: " .. a:lnum .. " " .. a:name .. " id: " .. a:sign_id
+            if g:sign_id > 0
+                echo "Remove a sign at line: " .. a:lnum .. " " .. a:name .. " id: " .. a:sign_id
+            else
+                echo "Ooops! id:" .. a:sign_id .. " is not  a valid sign id "
+            endif
         catch
             echo "Ooops! error with remove a sign: "..v:exception
         endtry
-    endif
 endfunction
 
 "count all signs on  the current line and call  remove for all from gutter
