@@ -96,7 +96,7 @@ function! RemoveAllSigns()
     endif
 endfunction
 " Write function to jump to a sign
-function! JumpToSign(sign_id)
+function! JumpToSign(lnum, arg2, name, sign_id)
     if a:sign_id <= 0
         echo "Ooops! id is not  a valid sign_id "
         return v:false
@@ -142,6 +142,8 @@ command! -nargs=0 RemoveAllSigns :call RemoveAllSigns()
 command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
 "command to remove a sign
 command! -nargs=* -complete=customlist,GetSigns RemoveSign :call RemoveSign(<f-args>)
+"command to jump to a sign
+command! -nargs=1 -complete=customlist,GetSigns JumpToSign :call JumpToSign(<f-args>)
 
 nnoremap <silent> <Plug>AddSign :AddSign<space><tab>
 if !hasmapto('<Plug>AddSign')
@@ -166,4 +168,9 @@ endif
 nnoremap <silent> <Plug>ListSignsAtBuffer :ListSignsAtBuffer<CR>
 if !hasmapto('<Plug>ListSignsAtBuffer')
     nmap <leader>lsb <Plug>ListSignsAtBuffer
+endif
+
+nnoremap <silent> <Plug>JumpToSign :JumpToSign<space><tab>
+if !hasmapto('<Plug>JumpToSign')
+    nmap <leader>js <Plug>JumpToSign
 endif
