@@ -16,9 +16,10 @@ function! CodeiumInVimInit()
     if len(g:bmf_symb) == len(g:bmf_keys)
         let g:bmf_signs = {}
         for i in range(len(g:bmf_keys))
-            let g:bmf_signs[g:bmf_keys[i]] = g:bmf_symb[i]
+            let g:bmf_signs[g:bmf_keys[i]] = g:bmf_symb[i]  
+            call sign_define(g:bmf_keys[i], {"text":g:bmf_signs[g:bmf_keys[i]})
         endfor
-    else
+            else
         echo "Ooops! error with init of bmf_signs"
     endif
 endfunction
@@ -57,7 +58,7 @@ function! AddSign(sign)
     try
         let l:signs = sign_getplaced(bufnr('%'), {'lnum': line('.'), 'group': 'signs'})[0].signs
         if len(l:signs) == 0
-            let g:sign_id = sign_place(0, 'signs', a:sign, bufnr('%'), {'lnum': line('.')})
+            let g:sign_id = sign_place(0, 'signs',a:sign, bufnr('%'), {'lnum': line('.')})
         else
             echo "Ooops! already a sign on this line: " .. line('.')
             return v:false 
