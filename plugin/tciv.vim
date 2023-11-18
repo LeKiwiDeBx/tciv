@@ -89,7 +89,7 @@ function! RemoveAllSigns()
     let l:signs = sign_getplaced(bufnr('%'), {'lnum': line('.'), 'group': 'signs'})[0].signs
     if len(l:signs) > 0
         for i in range(len(l:signs))
-            call RemoveSign(l:signs[i].id)
+            call RemoveSign( l:signs[i].lnum, " ", l:signs[i].name, l:signs[i].id)
         endfor
     else
         echo "No signs on this line: " .. line('.') .. " nothing to remove"
@@ -148,7 +148,7 @@ if !hasmapto('<Plug>AddSign')
     nmap <leader>as <Plug>AddSign
 endif
 
-nnoremap <silent> <Plug>RemoveSign :RemoveSign<CR>
+nnoremap <silent> <Plug>RemoveSign :RemoveSign<space><tab>
 if !hasmapto('<Plug>RemoveSign')
     nmap <leader>rs <Plug>RemoveSign
 endif
