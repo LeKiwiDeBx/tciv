@@ -17,7 +17,8 @@ function! CodeiumInVimInit()
         let g:bmf_signs = {}
         for i in range(len(g:bmf_keys))
             let g:bmf_signs[g:bmf_keys[i]] = g:bmf_symb[i]  
-            call sign_define(g:bmf_keys[i], {"text":g:bmf_signs[g:bmf_keys[i]})
+            call sign_define(g:bmf_keys[i], {"text":g:bmf_signs[g:bmf_keys[i]]})
+            echo "Sign defined: " .. g:bmf_keys[i] .. " " .. g:bmf_signs[g:bmf_keys[i]]
         endfor
             else
         echo "Ooops! error with init of bmf_signs"
