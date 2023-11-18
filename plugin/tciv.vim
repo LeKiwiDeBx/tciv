@@ -109,7 +109,7 @@ function! JumpToSign(sign_id)
     return g:line_tojump
 endfunction
 "create a function return a list of signs with id and line number and name
-function! GetSigns()
+function! GetSigns(A, L, P)
     let l:signs = sign_getplaced(bufnr('%'), {'group': 'signs'})[0].signs
     if len(l:signs) > 0
         let g:customSignList =[]
@@ -120,8 +120,7 @@ function! GetSigns()
     endif
     return g:customSignList
 endfunction
-" create command for AddSign with customlist
-command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
+
 function! SignList(A, L, P)
     return  g:bmf_signs->keys()->sort()
 endfunction
