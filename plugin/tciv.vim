@@ -70,7 +70,7 @@ function! AddSign(sign)
     return g:sign_id
 endfunction
 
-function! RemoveSign(sign_id)
+function! RemoveSign(arg1, arg2, arg3, sign_id)
     if a:sign_id <= 0
         echo "Ooops! id is not  a valid sign_id "
         return v:false
@@ -111,11 +111,11 @@ endfunction
 "create a function return a list of signs with id and line number and name
 function! GetSigns(A, L, P)
     let l:signs = sign_getplaced(bufnr('%'), {'group': 'signs'})[0].signs
+    let g:customSignList =[]
     if len(l:signs) > 0
-        let g:customSignList =[]
         for i in range(len(l:signs))
             let l:sign = l:signs[i]
-            call add(g:customSignList, l:sign.lnum .. " " .. l:sign.name .. "  id:" .. l:sign.id)
+            call add(g:customSignList, l:sign.lnum .. " " .. l:sign.name .. "  id: " .. l:sign.id)
         endfor
     endif
     return g:customSignList
@@ -140,7 +140,7 @@ command! -nargs=0 RemoveAllSigns :call RemoveAllSigns()
 "command to add a sign
 command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
 "command to remove a sign
-command! -nargs=1 -complete=customlist,GetSigns RemoveSign :call RemoveSign(<f-args>)
+command! -nargs=* -complete=customlist,GetSigns RemoveSign :call RemoveSign(<f-args>)
 
 nnoremap <silent> <Plug>AddSign :AddSign<space><tab>
 if !hasmapto('<Plug>AddSign')
