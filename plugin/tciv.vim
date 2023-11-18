@@ -85,6 +85,7 @@ function! RemoveSign(lnum, name, arg3, sign_id)
         catch
             echo "Ooops! error with remove a sign: "..v:exception
         endtry
+    endif
 endfunction
 
 "count all signs on  the current line and call  remove for all from gutter
