@@ -20,7 +20,7 @@ function! CodeiumInVimInit()
             call sign_define(g:bmf_keys[i], {"text":g:bmf_signs[g:bmf_keys[i]]})
             echo "Sign defined: " .. g:bmf_keys[i] .. " " .. g:bmf_signs[g:bmf_keys[i]]
         endfor
-            else
+    else
         echo "Ooops! error with init of bmf_signs"
     endif
 endfunction
@@ -58,11 +58,11 @@ function! AddSign(sign)
     let g:sign_id = 0
     try
         let l:signs = sign_getplaced(bufnr('%'), {'lnum': line('.'), 'group': 'signs'})[0].signs
+        let g:sign_id = sign_place(0, 'signs', a:sign, bufnr('%'), {'lnum': line('.')})
         if len(l:signs) == 0
-            let g:sign_id = sign_place(0, 'signs',a:sign, bufnr('%'), {'lnum': line('.')})
+            echo "Add a sign on this line: " .. line('.')
         else
-            echo "Ooops! already a sign on this line: " .. line('.')
-            return v:false 
+            echo "Already a sign on this line: " .. line('.')
         endif
     catch
         echo "Ooops! error with add a sign: "..v:exception
@@ -115,7 +115,7 @@ function! GetSigns()
         let g:customSignList =[]
         for i in range(len(l:signs))
             let l:sign = l:signs[i]
-            call add(g:customSignList, l:sign.lnum .. " " .. l:sign.name .. "  id: " .. l:sign.id)
+            call add(g:customSignList, l:sign.lnum .. " " .. l:sign.name .. "  id:" .. l:sign.id)
         endfor
     endif
     return g:customSignList
@@ -138,6 +138,10 @@ command! -nargs=0 ListSigns :call ListSigns()
 command! -nargs=0 ListSignsAtBuffer :call ListSignsAtBuffer()
 "command to remove all signs
 command! -nargs=0 RemoveAllSigns :call RemoveAllSigns()
+"command to add a sign
+command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
+"command to remove a sign
+command! -nargs=1 -complete=customlist,GetSigns RemoveSign :call RemoveSign(<f-args>)
 
 nnoremap <silent> <Plug>AddSign :AddSign<space><tab>
 if !hasmapto('<Plug>AddSign')
