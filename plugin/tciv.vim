@@ -70,13 +70,14 @@ function! AddSign(sign)
     return g:sign_id
 endfunction
 
-function! RemoveSign(arg1, arg2, arg3, sign_id)
+function! RemoveSign(lnum, arg2, name, sign_id)
     if a:sign_id <= 0
         echo "Ooops! id is not  a valid sign_id "
         return v:false
     else
         try
             let g:sign_id = sign_unplace('signs', {'id': a:sign_id})
+            echo "Remove a sign at line: " .. a:lnum .. " " .. a:name .. " id: " .. a:sign_id
         catch
             echo "Ooops! error with remove a sign: "..v:exception
         endtry
