@@ -31,7 +31,7 @@ function! ListSigns()
     else
         echo "List of signs:"
         for l:sign in l:signs
-            echo " Line: " .. l:sign.lnum  .. "Sign: " .. l:sign.name .. " group: " .. l:sign.group
+            echo " Line: " .. l:sign.lnum  .. " Sign: " .. l:sign.name .. " Group: " .. l:sign.group
         endfor
     endif
 endfunction
@@ -44,7 +44,7 @@ function! ListSignsAtBuffer()
         else
             echo "List of signs:"
             for l:sign in l:signs
-                echo " Line: " .. l:sign.lnum  .. "Sign: " .. l:sign.name .. " group: " .. l:sign.group
+                echo " Line: " .. l:sign.lnum  .. " Sign: " .. l:sign.name .. " Group: " .. l:sign.group
             endfor
         endif
     catch
