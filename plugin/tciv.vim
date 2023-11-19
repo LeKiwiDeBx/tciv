@@ -77,7 +77,7 @@ function! RemoveSign(lnum, name, id)
     else
         try
             let g:sign_id = sign_unplace('signs', {'id': a:id})
-            if g:sign_id > 0
+            if g:sign_id ==# 0
                 echo "Remove a sign at line: " .. a:lnum .. " " .. a:name .. " id: " .. a:id
             else
                 echo "Ooops! id:" .. a:id .. " is not  a valid sign id "
