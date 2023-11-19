@@ -71,7 +71,7 @@ function! AddSign(sign)
 endfunction
 
 function! RemoveSign(lnum, name, id)
-    if a:sign_id <= 0
+    if a:id <= 0
         echo "Ooops! id:" .. a:id .. " is not  a valid sign id "
         return v:false
     else
@@ -141,7 +141,7 @@ command! -nargs=0 ListSigns :call ListSigns()
 "command to list all signs at current buffer
 command! -nargs=0 ListSignsAtBuffer :call ListSignsAtBuffer()
 "command to remove all signs
-command! -nargs=* RemoveAllSigns :call RemoveAllSigns()
+command! -nargs=* -complete=customlist,GetSigns RemoveAllSigns :call RemoveAllSigns()
 "command to add a sign
 command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
 
