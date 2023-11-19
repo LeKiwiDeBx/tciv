@@ -72,7 +72,7 @@ endfunction
 
 function! RemoveSign(lnum, name, id)
     if a:id <= 0
-        echo "Ooops! id:" .. a:id .. " is not  a valid sign id "
+        echo "Ooops! id is not a valid number sign id "
         return v:false
     else
         try
