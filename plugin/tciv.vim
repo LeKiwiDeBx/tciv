@@ -70,17 +70,17 @@ function! AddSign(sign)
     return g:sign_id
 endfunction
 
-function! RemoveSign(lnum, name, arg3, sign_id)
+function! RemoveSign(lnum, name, id)
     if a:sign_id <= 0
-        echo "Ooops! id:" .. a:sign_id .. " is not  a valid sign id "
+        echo "Ooops! id:" .. a:id .. " is not  a valid sign id "
         return v:false
     else
         try
-            let g:sign_id = sign_unplace('signs', {'id': a:sign_id})
+            let g:sign_id = sign_unplace('signs', {'id': a:id})
             if g:sign_id > 0
-                echo "Remove a sign at line: " .. a:lnum .. " " .. a:name .. " id: " .. a:sign_id
+                echo "Remove a sign at line: " .. a:lnum .. " " .. a:name .. " id: " .. a:id
             else
-                echo "Ooops! id:" .. a:sign_id .. " is not  a valid sign id "
+                echo "Ooops! id:" .. a:id .. " is not  a valid sign id "
             endif
         catch
             echo "Ooops! error with remove a sign: "..v:exception
@@ -88,15 +88,15 @@ function! RemoveSign(lnum, name, arg3, sign_id)
     endif
 endfunction
 
-"count all signs on  the current line and call  remove for all from gutter
-function! RemoveAllSigns()
-    let l:signs = sign_getplaced(bufnr('%'), {'lnum': line('.'), 'group': 'signs'})[0].signs
+"count all signs on  the current line by default and call remove for all from gutter
+function! RemoveAllSigns(lnum = line('.'), lname = "")
+    let l:signs = sign_getplaced(bufnr('%'), {'lnum': a:lnum, 'group': 'signs'})[0].signs
     if len(l:signs) > 0
         for i in range(len(l:signs))
-            call RemoveSign( l:signs[i].lnum, " ", l:signs[i].name, l:signs[i].id)
+            call RemoveSign( l:signs[i].lnum, l:signs[i].name, l:signs[i].id)
         endfor
     else
-        echo "No signs on this line: " .. line('.') .. " nothing to remove"
+        echo "No signs on this line: " .. a:lnum .. " nothing to remove"
     endif
 endfunction
 " Write function to jump to a sign
@@ -120,7 +120,7 @@ function! GetSigns(A, L, P)
     if len(l:signs) > 0
         for i in range(len(l:signs))
             let l:sign = l:signs[i]
-            call add(g:customSignList, l:sign.lnum .. " " .. l:sign.name .. "  id: " .. l:sign.id)
+            call add(g:customSignList, l:sign.lnum .. " " .. l:sign.name)
         endfor
     endif
     return g:customSignList
@@ -141,11 +141,13 @@ command! -nargs=0 ListSigns :call ListSigns()
 "command to list all signs at current buffer
 command! -nargs=0 ListSignsAtBuffer :call ListSignsAtBuffer()
 "command to remove all signs
-command! -nargs=0 RemoveAllSigns :call RemoveAllSigns()
+command! -nargs=* RemoveAllSigns :call RemoveAllSigns()
 "command to add a sign
 command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
+
 "command to remove a sign
-command! -nargs=* -complete=customlist,GetSigns RemoveSign :call RemoveSign(<f-args>)
+"command! -nargs=* -complete=customlist,GetSigns RemoveSign :call RemoveSign(<f-args>)
+
 "command to jump to a sign
 command! -nargs=* -complete=customlist,GetSigns JumpToSign :call JumpToSign(<f-args>)
 
@@ -154,10 +156,10 @@ if !hasmapto('<Plug>AddSign')
     nmap <leader>as <Plug>AddSign
 endif
 
-nnoremap <silent> <Plug>RemoveSign :RemoveSign<space><tab>
-if !hasmapto('<Plug>RemoveSign')
-    nmap <leader>rs <Plug>RemoveSign
-endif
+"nnoremap <silent> <Plug>RemoveSign :RemoveSign<space><tab>
+"if !hasmapto('<Plug>RemoveSign')
+"    nmap <leader>rs <Plug>RemoveSign
+"endif
 
 nnoremap <silent> <Plug>RemoveAllSigns :RemoveAllSigns<CR>
 if !hasmapto('<Plug>RemoveAllSigns')
