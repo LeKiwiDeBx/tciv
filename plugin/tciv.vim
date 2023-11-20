@@ -27,7 +27,7 @@ endfunction
 function! ListSigns()
     let l:signs = sign_getplaced(bufnr('%'), {'lnum': line('.'), 'group': 'signs'})[0].signs->sort({a, b -> a.name -  b.name})
     if len(l:signs) == 0
-        echo "No signs"
+        echo "No signs on this line: " .. line('.')
     else
         echo "List of signs:"
         for l:sign in l:signs
@@ -38,7 +38,7 @@ endfunction
 "function list all signs at current buffer at the current buffer in a statement try catch endtry
 function! ListSignsAtBuffer()
     try
-        let l:signs = sign_getplaced(bufnr('%'), {'group': 'signs'})[0].signs->sort({a, b -> a.name -  b.name})
+        let l:signs = sign_getplaced(bufnr('%'), {'group': 'signs'})[0].signs->sort({a, b -> a.lnum-  b.lnum})
         if len(l:signs) == 0
             echo "No signs"
         else
