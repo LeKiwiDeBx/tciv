@@ -1,18 +1,16 @@
-"if plugin is loaded
-if exists('g:loaded_tciv')
+if exists('g:loaded_tciv') || v:version < 704 || &cp   
     finish
 endif
 let g:loaded_tciv = 0
-"functionCodeiumInVimInit to call when vim start up
+let s:save_cpo = &cpo
+set cpo&vim
+
 function! CodeiumInVimInit()
     echo "tciv.vim plugin loaded"
     let g:loaded_tciv = 1
-    "do a list g:bmf_list A O W E I
     let g:bmf_symb= ['A', 'O', 'W', 'E', 'I']
     let g:bmf_list = {}
-    "create  a list with 'alert' 'ok 'warning' 'error' 'info' 'info'
     let g:bmf_keys = ['alert', 'ok', 'warning', 'error', 'info']
-    "if bmf_symb and bmf_keys are equals length then let g:bmf_signs is a dictionary with keys from bmf_keys and values from bmf_symb
     if len(g:bmf_symb) == len(g:bmf_keys)
         let g:bmf_signs = {}
         for i in range(len(g:bmf_keys))
@@ -35,7 +33,7 @@ function! ListSigns()
         endfor
     endif
 endfunction
-"function list all signs at current buffer at the current buffer in a statement try catch endtry
+
 function! ListSignsAtBuffer()
     try
         let l:signs = sign_getplaced(bufnr('%'), {'group': 'signs'})[0].signs->sort({a, b -> a.lnum-  b.lnum})
@@ -52,8 +50,6 @@ function! ListSignsAtBuffer()
     endtry
 endfunction
 
-"function add a sign in parameter at the current line
-"at the current buffer in a statement try catch endtry
 function! AddSign(sign)
     let g:sign_id = 0
     try
@@ -88,7 +84,6 @@ function! RemoveSign(lnum, name, id)
     endif
 endfunction
 
-"count all signs on  the current line by default and call remove for all from gutter
 function! RemoveAllSigns(lnum = line('.'), lname = "")
     let l:signs = sign_getplaced(bufnr('%'), {'lnum': a:lnum, 'group': 'signs'})[0].signs
     if len(l:signs) > 0
@@ -99,7 +94,7 @@ function! RemoveAllSigns(lnum = line('.'), lname = "")
         echo "No signs on this line: " .. a:lnum .. " nothing to remove"
     endif
 endfunction
-" Write function to jump to a sign
+
 function! JumpToSign(lnum, lname)
     let g:line_tojump = 0
     let l:signs = sign_getplaced(bufnr('%'), {'lnum': a:lnum, 'group': 'signs'})[0].signs
@@ -115,7 +110,7 @@ function! JumpToSign(lnum, lname)
     endif
     return g:line_tojump
 endfunction
-"create a function return a list of signs with id and line number and name
+
 function! GetSigns(A, L, P)
     let l:signs = sign_getplaced(bufnr('%'), {'group': 'signs'})[0].signs
     let g:customSignList =[]
@@ -132,53 +127,38 @@ function! SignList(A, L, P)
     return  g:bmf_signs->keys()->sort()
 endfunction
 
-" on vim start with vim enter load initialization function
 if has('vim_starting') 
     autocmd VimEnter * call CodeiumInVimInit()
 else
     call CodeiumInVimInit()
 endif
-"command to list all signs at current line
+
 command! -nargs=0 ListSigns :call ListSigns()
-"command to list all signs at current buffer
 command! -nargs=0 ListSignsAtBuffer :call ListSignsAtBuffer()
-"command to remove all signs
 command! -nargs=* -complete=customlist,GetSigns RemoveAllSigns :call RemoveAllSigns(<f-args>)
-"command to add a sign
 command! -nargs=1 -complete=customlist,SignList AddSign :call AddSign(<f-args>)
-
-"command to remove a sign
-"command! -nargs=* -complete=customlist,GetSigns RemoveSign :call RemoveSign(<f-args>)
-
-"command to jump to a sign
 command! -nargs=* -complete=customlist,GetSigns JumpToSign :call JumpToSign(<f-args>)
 
 nnoremap <silent> <Plug>AddSign :AddSign<space><tab>
 if !hasmapto('<Plug>AddSign')
     nmap <leader>as <Plug>AddSign
 endif
-
-"nnoremap <silent> <Plug>RemoveSign :RemoveSign<space><tab>
-"if !hasmapto('<Plug>RemoveSign')
-"    nmap <leader>rs <Plug>RemoveSign
-"endif
-
-nnoremap <silent> <Plug>RemoveAllSigns :RemoveAllSigns<CR>
+nnoremap <silent> <Plug>RemoveAllSigns :RemoveAllSigns<space><tab>
 if !hasmapto('<Plug>RemoveAllSigns')
     nmap <leader>ras <Plug>RemoveAllSigns
 endif
-
 nnoremap <silent> <Plug>ListSigns :ListSigns<CR>
 if !hasmapto('<Plug>ListSigns')
     nmap <leader>ls <Plug>ListSigns
 endif
-
 nnoremap <silent> <Plug>ListSignsAtBuffer :ListSignsAtBuffer<CR>
 if !hasmapto('<Plug>ListSignsAtBuffer')
     nmap <leader>lsb <Plug>ListSignsAtBuffer
 endif
-
 nnoremap <silent> <Plug>JumpToSign :JumpToSign<space><tab>
 if !hasmapto('<Plug>JumpToSign')
     nmap <leader>js <Plug>JumpToSign
 endif
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
