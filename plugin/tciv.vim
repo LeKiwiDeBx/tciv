@@ -101,13 +101,17 @@ function! RemoveAllSigns(lnum = line('.'), lname = "")
 endfunction
 " Write function to jump to a sign
 function! JumpToSign(lnum, lname)
+    let g:line_tojump = 0
     let l:signs = sign_getplaced(bufnr('%'), {'lnum': a:lnum, 'group': 'signs'})[0].signs
-    let l:id = l:signs[0].id
-    try
-        let g:line_tojump = sign_jump(l:id, 'signs', bufnr('%'))
-    catch
-        echo "Ooops! error with jump to a sign: "..v:exception
-    endtry
+    if len(l:signs) > 0
+        let l:id = l:signs[0].id
+        try
+            let g:line_tojump = sign_jump(l:id, 'signs', bufnr('%'))
+        catch
+            echo "Ooops! error with jump to a sign: "..v:exception
+        endtry
+    else
+        echo "No signs on this line: " .. a:lnum .. " nothing to jump"
     endif
     return g:line_tojump
 endfunction
