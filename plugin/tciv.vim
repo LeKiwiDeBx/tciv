@@ -35,6 +35,7 @@ function! ListSigns()
 endfunction
 
 function! ListSignsAtBuffer()
+    call setqflist([],'r')
     try
         let l:signs = sign_getplaced(bufnr('%'), {'group': 'signs'})[0].signs->sort({a, b -> a.lnum-  b.lnum})
         if len(l:signs) == 0
@@ -43,11 +44,13 @@ function! ListSignsAtBuffer()
             echo "List of signs:"
             for l:sign in l:signs
                 echo " Line: " .. l:sign.lnum  .. " Sign: " .. l:sign.name .. " Id: " .. l:sign.id 
+                call setqflist([{'lnum': l:sign.lnum, 'text': l:sign.name.' Id: '.l:sign.id}], 'a')
             endfor
         endif
     catch
         echo "Ooops! error with list signs at buffer: "..v:exception
     endtry
+"write into quickfix list the list of signs
 endfunction
 
 function! AddSign(sign)
