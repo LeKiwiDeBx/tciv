@@ -35,7 +35,6 @@ function! ListSigns()
 endfunction
 
 function! ListSignsAtBuffer()
-    execute ':copen'
     call setqflist([],'r')
     try
         let l:signs = sign_getplaced(bufnr('%'), {'group': 'signs'})[0].signs->sort({a, b -> a.lnum-  b.lnum})
