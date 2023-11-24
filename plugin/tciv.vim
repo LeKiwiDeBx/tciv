@@ -8,7 +8,7 @@ set cpo&vim
 function! CodeiumInVimInit()
     echo "tciv.vim plugin loaded"
     let g:loaded_tciv = 1
-"    let g:bmf_symb= ['A', 'O', 'W', 'E', 'I']
+    "    let g:bmf_symb= ['A', 'O', 'W', 'E', 'I']
     let g:bmf_symb= ['', '', '', '', '']
     let g:bmf_list = {}
     let g:bmf_keys = ['alert', 'ok', 'warning', 'error', 'info']
@@ -23,6 +23,7 @@ function! CodeiumInVimInit()
         echo "Ooops! error with init of bmf_signs"
     endif
 endfunction
+
 function! ListSigns()
     let l:signs = sign_getplaced(bufnr('%'), {'lnum': line('.'), 'group': 'signs'})[0].signs->sort({a, b -> a.name -  b.name})
     if len(l:signs) == 0
@@ -51,7 +52,6 @@ function! ListSignsAtBuffer()
     catch
         echo "Ooops! error with list signs at buffer: "..v:exception
     endtry
-"write into quickfix list the list of signs
 endfunction
 
 function! AddSign(sign)
