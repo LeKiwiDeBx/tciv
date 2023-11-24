@@ -8,7 +8,8 @@ set cpo&vim
 function! CodeiumInVimInit()
     echo "tciv.vim plugin loaded"
     let g:loaded_tciv = 1
-    let g:bmf_symb= ['A', 'O', 'W', 'E', 'I']
+"    let g:bmf_symb= ['A', 'O', 'W', 'E', 'I']
+    let g:bmf_symb= ['', '', '', '', '']
     let g:bmf_list = {}
     let g:bmf_keys = ['alert', 'ok', 'warning', 'error', 'info']
     if len(g:bmf_symb) == len(g:bmf_keys)
