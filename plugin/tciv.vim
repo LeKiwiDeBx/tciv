@@ -46,7 +46,7 @@ function! ListSignsAtBuffer()
             echo "List of signs:"
             for l:sign in l:signs
                 echo " Line: " .. l:sign.lnum  .. " Sign: " .. l:sign.name .. " Id: " .. l:sign.id 
-                call setqflist([],'a',{'items':[{'lnum': printf("%3d",l:sign.lnum), 'text': printf(" %-12s |Id: %d", l:sign.name , l:sign.id)}],'title': 'List of signs at buffer','idx':'$'})
+                call setqflist([],'a',{'items':[{'lnum': printf("%-03d",l:sign.lnum), 'text': printf(" %-12s |Id: %d", l:sign.name , l:sign.id)}],'title': 'List of signs at buffer','idx':'$'})
             endfor
         endif
     catch
