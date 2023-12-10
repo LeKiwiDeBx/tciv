@@ -44,7 +44,21 @@ def ListSignsAtBuffer()
     endfor
 enddef
 
+def AddSign(sign: string): number
+    var sign_id = sign_place(0, 'signs', sign, bufnr('%'), {'lnum': line('.')})
+    return sign_id
+enddef
+
+def RemoveAllSignsAtLine(line: number = line('.'))
+    var signs = bufnr('%')->sign_getplaced({'lnum': line, 'group': 'signs'})[0].signs
+    for sign in signs
+        sign_unplace('signs', {'id': sign.id})
+    endfor
+enddef
+
 CodeiumInVimInit()
-ListSigns()
+AddSign('info')
+# ListSigns()
+RemoveAllSignsAtLine(57)
 ListSignsAtBuffer()
 copen
