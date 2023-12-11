@@ -43,28 +43,29 @@ def ListSignsAtBuffer()
     endfor
 enddef
 
-def AddSign(sign: string): number
+def AddSign(sign: string = 'info'): number
     var sign_id = sign_place(0, 'signs', sign, bufnr('%'), {'lnum': line('.')})
     ListSignsAtBuffer()
     return sign_id
 enddef
 
-def RemoveAllSignsAtLine(line: number = line('.'))
-    var signs = bufnr('%')->sign_getplaced({'lnum': line, 'group': 'signs'})[0].signs
+def RemoveAllSignsAtLine(line: string = '0'): void
+    var lnum: number = line ==# '0' ? line('.') : line->str2nr()
+    var signs = bufnr('%')->sign_getplaced({'lnum': lnum, 'group': 'signs'})[0].signs
     for sign in signs
         sign_unplace('signs', {'id': sign.id})
     endfor
+    ListSignsAtBuffer()
 enddef
+
 var ListKeys = (A: string, L: string, P: number): list<string> => BMF_KEYS->copy()->sort()
-# def ListKeys(A: string, L: string, P: number): list<string>
-#     return BMF_KEYS
-# enddef
 
 command! -nargs=* -complete=customlist,ListKeys AddSign call AddSign(<f-args>)
+command! -nargs=? RemoveSign call RemoveAllSignsAtLine(<f-args>)
 
 CodeiumInVimInit()
 AddSign('info')
 # ListSigns()
-RemoveAllSignsAtLine(57)
+# RemoveAllSignsAtLine(57)
 ListSignsAtBuffer()
 copen
