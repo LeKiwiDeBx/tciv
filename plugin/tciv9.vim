@@ -1,7 +1,7 @@
+vim9script
 if !has('vim9script') || v:version < 900
     finish
 endif
-vim9script
 g:loaded_tciv9 = true
 # const BMF_SYMB = ['A', 'O', 'W', 'E', 'I']
 const BMF_KEYS = ['alert', 'ok', 'warning', 'error', 'info']
@@ -10,7 +10,6 @@ var bmf_signs: dict<string>
 
 def CodeiumInVimInit(): bool
     # echo "tciv9.vim plugin loaded"
-    g:loaded_tciv = 1
     if len(BMF_SYMB) == len(BMF_KEYS)
         for i in range(len(BMF_KEYS))
             bmf_signs->extend({[BMF_KEYS[i]]: BMF_SYMB[i]})
@@ -46,6 +45,7 @@ enddef
 
 def AddSign(sign: string): number
     var sign_id = sign_place(0, 'signs', sign, bufnr('%'), {'lnum': line('.')})
+    ListSignsAtBuffer()
     return sign_id
 enddef
 
@@ -55,6 +55,12 @@ def RemoveAllSignsAtLine(line: number = line('.'))
         sign_unplace('signs', {'id': sign.id})
     endfor
 enddef
+var ListKeys = (A: string, L: string, P: number): list<string> => BMF_KEYS->copy()->sort()
+# def ListKeys(A: string, L: string, P: number): list<string>
+#     return BMF_KEYS
+# enddef
+
+command! -nargs=* -complete=customlist,ListKeys AddSign call AddSign(<f-args>)
 
 CodeiumInVimInit()
 AddSign('info')
