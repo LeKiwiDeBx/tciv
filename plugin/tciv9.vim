@@ -63,6 +63,16 @@ var ListKeys = (A: string, L: string, P: number): list<string> => BMF_KEYS->copy
 command! -nargs=* -complete=customlist,ListKeys AddSign call AddSign(<f-args>)
 command! -nargs=? RemoveSign call RemoveAllSignsAtLine(<f-args>)
 
+nnoremap <silent> <Plug>AddSign :AddSign<space><tab>
+if !hasmapto('<Plug>AddSign')
+    nmap <leader>as <Plug>AddSign
+endif
+
+nnoremap <silent> <Plug>RemoveAllSignsAtLine :RemoveSign<cr>
+if !hasmapto('<Plug>RemoveAllSignsAtLine')
+    nmap <leader>rs <Plug>RemoveAllSignsAtLine
+endif
+
 CodeiumInVimInit()
 AddSign('info')
 # ListSigns()
