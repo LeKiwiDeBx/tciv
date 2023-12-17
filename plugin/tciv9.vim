@@ -9,16 +9,16 @@ var bmf_signs: dict<string>
 
 def CodeiumInVimInit(): bool
     try
-    if len(BMF_SYMB) == len(BMF_KEYS)
-        for i in range(len(BMF_KEYS))
-            bmf_signs->extend({[BMF_KEYS[i]]: BMF_SYMB[i]})
-            BMF_KEYS[i]->sign_define({"text": bmf_signs[BMF_KEYS[i]]})
-        endfor
-        return true
-    else
-        echo "Ooops! error with init of bmf_signs"
-        return false
-    endif
+        if len(BMF_SYMB) == len(BMF_KEYS)
+            for i in range(len(BMF_KEYS))
+                bmf_signs->extend({[BMF_KEYS[i]]: BMF_SYMB[i]})
+                BMF_KEYS[i]->sign_define({"text": bmf_signs[BMF_KEYS[i]]})
+            endfor
+            return true
+        else
+            echo "Ooops! error with init of bmf_signs"
+            return false
+        endif
     catch
         echo "Ooops! error with init " .. v:exception
         return false
